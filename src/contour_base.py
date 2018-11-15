@@ -15,10 +15,14 @@ def find_center(img_list):
         high_range = np.array([180, 255, 255])
         # inRange得到的是二值图像 在范围内的像素置为白色 范围之外的设为黑色
         th = cv2.inRange(hue_image, low_range, high_range)
+        # 高斯平滑轮廓
+        blur = cv2.GaussianBlur(th, (3, 3), 0)
         # 膨胀
-        dilated = cv2.dilate(th, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)), iterations=2)
+        dilated = cv2.dilate(blur, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)), iterations=2)
+        # can = cv2.Canny(blur, 200, 255)
         # findContours 找到外部轮廓  该函数只接受二值图像即黑白的 灰度图也不行
         cnts = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # cnts = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         # cnts = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         # 用以区分OpenCV2.4和OpenCV3
         cnts = cnts[0] if imutils.is_cv2() else cnts[1]
