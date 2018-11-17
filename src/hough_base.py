@@ -34,7 +34,9 @@ def find_center(img_list):
     cv2.destroyAllWindows()
 
 
-img_list = ['./data/0.png', './data/1.png', './data/3.png', './data/4.png']
+# img_list = ['./data/0.png', './data/1.png', './data/3.png', './data/4.png']
 # img_list = ['./data/3.png']
+base_dir = './data'
+img_list = [os.path.join(base_dir, filename) for filename in os.listdir(base_dir)]
 find_center(img_list)
 
