@@ -19,16 +19,17 @@ def find_center(img_list):
         # 膨胀
         dilated = cv2.dilate(th, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)), iterations=2)
 
-        circles = cv2.HoughCircles(dilated, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=10, maxRadius=30)
+        circles = cv2.HoughCircles(dilated, cv2.HOUGH_GRADIENT, 1, 50, param1=15, param2=7, minRadius=5, maxRadius=20)
 
         circles = np.uint16(np.around(circles))
         for i in circles[0, :]:
             # draw the outer circle
             cv2.circle(image, (i[0], i[1]), i[2], (0, 255, 0), 2)
             # draw the center of the circle
-            cv2.circle(image, (i[0], i[1]), 1, (0, 0, 255), 1)
+            cv2.circle(image, (i[0], i[1]), 1, (255, 255, 0), 1)
             cv2.imshow("Image", image)
-            cv2.waitKey(3000)
+        
+        cv2.waitKey(3000)
 
     cv2.destroyAllWindows()
 
